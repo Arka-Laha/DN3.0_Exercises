@@ -1,4 +1,4 @@
-public class Order {
+class Order {
     private int orderId;
     private String customerName;
     private double totalPrice;
@@ -9,7 +9,7 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    // Getters and setters
+    // Getters and Setters
     public int getOrderId() {
         return orderId;
     }
@@ -41,3 +41,4 @@ public class Order {
         System.out.println();        
     }
 }
+

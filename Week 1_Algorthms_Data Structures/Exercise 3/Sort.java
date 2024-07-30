@@ -1,44 +1,58 @@
-import java.util.Arrays;
-import java.util.Map;
-
 import java.util.*;
 
-public class Sort {
-    // Method to sort orders by totalPrice using Bubble Sort
-    public static void bubbleSort(List<Order> orderList) {
-        int n = orderList.size();
+class Sort {
+
+    // Bubble Sort method
+    public void bubbleSort(AllOrders allOrders) {
+        List<Order> orders = allOrders.getOrders();
+        int n = orders.size();
+        boolean swapped;
         for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (orderList.get(j).getTotalPrice() > orderList.get(j + 1).getTotalPrice()) {
-                    Collections.swap(orderList, j, j + 1);
+            swapped = false;
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (orders.get(j).getTotalPrice() > orders.get(j + 1).getTotalPrice()) {
+                    Order temp = orders.get(j);
+                    orders.set(j, orders.get(j + 1));
+                    orders.set(j + 1, temp);
+                    swapped = true;
                 }
             }
+            if (!swapped) break;
         }
     }
 
-    // Method to sort orders by totalPrice using Quick Sort
-    public static void quickSort(List<Order> orderList) {
-        quickSortHelper(orderList, 0, orderList.size() - 1);
+    // Quick Sort method
+    public void quickSort(AllOrders allOrders) {
+        List<Order> orders = allOrders.getOrders();
+        quickSortHelper(orders, 0, orders.size() - 1);
     }
 
-    private static void quickSortHelper(List<Order> orderList, int low, int high) {
+    private void quickSortHelper(List<Order> orders, int low, int high) {
         if (low < high) {
-            int pi = partition(orderList, low, high);
-            quickSortHelper(orderList, low, pi - 1);
-            quickSortHelper(orderList, pi + 1, high);
+            int pi = partition(orders, low, high);
+
+            quickSortHelper(orders, low, pi - 1);
+            quickSortHelper(orders, pi + 1, high);
         }
     }
 
-    private static int partition(List<Order> orderList, int low, int high) {
-        double pivot = orderList.get(high).getTotalPrice();
+    private int partition(List<Order> orders, int low, int high) {
+        double pivot = orders.get(high).getTotalPrice();
         int i = (low - 1);
         for (int j = low; j < high; j++) {
-            if (orderList.get(j).getTotalPrice() <= pivot) {
+            if (orders.get(j).getTotalPrice() <= pivot) {
                 i++;
-                Collections.swap(orderList, i, j);
+
+                Order temp = orders.get(i);
+                orders.set(i, orders.get(j));
+                orders.set(j, temp);
             }
         }
-        Collections.swap(orderList, i + 1, high);
+
+        Order temp = orders.get(i + 1);
+        orders.set(i + 1, orders.get(high));
+        orders.set(high, temp);
+
         return i + 1;
     }
 }
